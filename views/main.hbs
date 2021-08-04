@@ -1,0 +1,21 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Price</th>
+      <th scope="col">Thumbnail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      {{#each product}}
+          <td>{{title}}</td>
+          <td>{{price}}</td>
+          <td>{{thumbnail}}</td>
+     {{/each}}
+    </tr>
+  </tbody>
+</table>
+
