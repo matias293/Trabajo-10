@@ -49,6 +49,6 @@ router.delete('/productos/borrar/:id', (req, res) => {
 
 router.get('/productos/vista', (req, res) => {
    
-        res.render('main', product);
+        res.render("main", {product});
 })
 export default router;
