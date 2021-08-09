@@ -10,6 +10,9 @@ const server = app.listen(puerto, () =>
 console.log('Server up en puerto', puerto)
 );
 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
+
 server.on('error', (err) => {
   console.log('ERROR ATAJADO', err);
 });

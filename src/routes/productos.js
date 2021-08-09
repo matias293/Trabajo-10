@@ -1,54 +1,68 @@
 import express from 'express';
 
 
+import Product from '../Productos'
 
+const products = new Product()
 const router = express.Router();
 
-let product = [
-    {
-      id: '1',
-      title: 'PC',
-      price: '123.45',
-      thumbnail:
-        'https://sanlorenzo.com.ar/img/plantel/futbol/2020/g/sebastian-torrico.jpg',
-    },
-    {
-      id: '2',
-      title: 'Netbook',
-      price: '234.56',
-      thumbnail:
-        'https://www.rionegro.com.ar/wp-content/uploads/2021/05/aNGEL-ROMERO.jpg?w=920&h=517&resize=920,517',
-    },
-    {
-      id: '3',
-      title: 'PlayStatation',
-      price: '345.67',
-      thumbnail:
-        'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png',
-    },
-  ];
+  router.get('/productos/listar', (req, res) => {
+  let productos =  products.leerProductos()
+     res.json({
+      productos 
+     });
+   });
+
 
 router.put('/productos/actualizar/:id', (req, res) => {
-  res.json({
-    title:'Nuevo Producto',
-    price:'123',
-    thumbnail: 'url'
-  });
+  const {id} = req.params
+  
+  const {title,price,thumbnail} = req.body
+
+  const productoActualizado = products.actualizarProducto(title,price,thumbnail,id)
+
+  if(!productoActualizado) return res.json({msg: 'Producto no existe '})
+  else{
+    res.json({
+      productoActualizado
+    });
+
+  }
+   
 });
 
 router.delete('/productos/borrar/:id', (req, res) => {
- 
-  res.json({
-    msg:'Usuario Eliminado',
-    title: 'Producto Eliminado',
-    price:'123',
-    thumbnail: 'url'
+ const {id}= req.params
 
-  });
+  const productoBorrado = products.eliminarProducto(id)
+
+    if( !productoBorrado ) res.json({msg: 'Producto no existe o ya fue eliminado '})
+    
+     res.json({
+       msg:'Usuario Eliminado',
+       productoBorrado
+     });
 });
 
+router.post('/productos/guardar', (req, res) => {
+  
+	const {title,price,thumbnail} = req.body;
+
+  products.guardarProducto(title,price,thumbnail)
+	
+	res.redirect('/api/productos/vista');
+});
+
+
+
 router.get('/productos/vista', (req, res) => {
-   
-        res.render("main", {product});
+const productos = products.leerProductos()
+
+   if(productos.length > 0)
+   res.render("main", {productos});
+
+  else {
+     res.render("main", {mensaje:'NO HAY PRODUCTOS DISPONIBLES'})
+  }
 })
 export default router;

@@ -1,4 +1,9 @@
-<table class="table">
+{{#if mensaje }}
+    <h1>{{mensaje}}</h1>
+
+{{else}}
+
+<table class="table table-dark table-hover">
   <thead>
     <tr>
      
@@ -8,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-      {{#each product}}
+      {{#each productos}}
     <tr>
     
           <td>{{title}}</td>
@@ -19,3 +24,4 @@
   </tbody>
 </table>
 
+{{/if}}
